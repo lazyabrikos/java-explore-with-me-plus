@@ -2,6 +2,7 @@ package ru.practicum.hits.service;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
+import org.springframework.stereotype.Service;
 import ru.practicum.hits.HitDto;
 import ru.practicum.hits.StatsDto;
 import ru.practicum.hits.entity.Stats;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class HitServiceImpl implements HitService {
 
     private final HitRepository hitRepository;
