@@ -18,9 +18,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=ewm-stats
+      - POSTGRES_PASSWORD=password
       - POSTGRES_USER=user
-      - POSTGRES_DB=password
+      - POSTGRES_DB=ewm-stats
     healthcheck:
       test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
       timeout: 5s
@@ -48,9 +48,9 @@ services:
     ports:
       - "7654:5432"
     environment:
-      - POSTGRES_PASSWORD=ewm-main
+      - POSTGRES_PASSWORD=password
       - POSTGRES_USER=user
-      - POSTGRES_DB=password
+      - POSTGRES_DB=ewm-main
     healthcheck:
       test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
       timeout: 5s
