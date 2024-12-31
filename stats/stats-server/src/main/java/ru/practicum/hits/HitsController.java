@@ -17,13 +17,13 @@ public class HitsController {
         this.hitService = hitService;
     }
 
-    @PostMapping
+    @PostMapping("/hit")
     public ResponseEntity<Void> addHit(@RequestBody HitDto hitDto) {
         hitService.addHit(hitDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/stats")
     public ResponseEntity<List<StatsDto>> getStats(
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end,
