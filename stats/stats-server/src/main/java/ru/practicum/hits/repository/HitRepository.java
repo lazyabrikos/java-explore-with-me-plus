@@ -12,9 +12,9 @@ import java.util.List;
 
 @Repository
 public interface HitRepository extends JpaRepository<Hit, Integer> {
-    @Query(value = "SELECT new ru.practicum.model.Stats(" +
+    @Query(value = "SELECT new ru.practicum.hits.entity.Stats(" +
             "app, uri, COUNT(ip) as total) " +
-            "FROM Hits " +
+            "FROM Hit " +
             "WHERE moment between :start AND :end " +
             "GROUP BY app, uri " +
             "ORDER BY total DESC")
@@ -23,9 +23,9 @@ public interface HitRepository extends JpaRepository<Hit, Integer> {
             @Param("end") LocalDateTime end
     );
 
-    @Query(value = "SELECT new ru.practicum.model.Stats(" +
+    @Query(value = "SELECT new ru.practicum.hits.entity.Stats(" +
             "app, uri, COUNT(DISTINCT ip) as total) " +
-            "FROM Hits " +
+            "FROM Hit " +
             "WHERE moment between :start AND :end " +
             "GROUP BY app, uri " +
             "ORDER BY total DESC")
@@ -34,9 +34,9 @@ public interface HitRepository extends JpaRepository<Hit, Integer> {
             @Param("end") LocalDateTime end
     );
 
-    @Query(value = "SELECT new ru.practicum.model.Stats(" +
+    @Query(value = "SELECT new ru.practicum.hits.entity.Stats(" +
             "app, uri, COUNT(ip) as total) " +
-            "FROM Hits " +
+            "FROM Hit " +
             "WHERE moment between :start AND :end " +
             "AND uri in ( :uris) " +
             "GROUP BY app, uri " +
@@ -47,9 +47,9 @@ public interface HitRepository extends JpaRepository<Hit, Integer> {
             @Param("uris") List<String> uris
     );
 
-    @Query(value = "SELECT new ru.practicum.model.Stats(" +
+    @Query(value = "SELECT new ru.practicum.hits.entity.Stats(" +
             "app, uri, COUNT(DISTINCT ip) as total) " +
-            "FROM Hits " +
+            "FROM Hit " +
             "WHERE moment between :start AND :end " +
             "AND uri in ( :uris) " +
             "GROUP BY app, uri " +

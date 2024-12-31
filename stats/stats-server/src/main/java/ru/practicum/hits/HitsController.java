@@ -23,7 +23,7 @@ public class HitsController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<List<StatsDto>> getStats(
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end,
