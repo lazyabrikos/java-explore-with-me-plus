@@ -25,7 +25,6 @@ public class StatServerController {
                                            @RequestParam(value = "end", required = true) String end,
                                            @RequestParam(value = "uris", required = false) List<String> uris,
                                            @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
-
         return statService.getStats(start, end, uris, unique);
     }
 }

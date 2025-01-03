@@ -41,7 +41,7 @@ public class StatsServiceImpl implements StatService {
         List<StatsResponseDto> hits;
         LocalDateTime start = getDateTime(pathStart);
         LocalDateTime end = getDateTime(pathEnd);
-
+        log.info("Uris = {}", uris);
         if (uris != null && !uris.isEmpty()) {
             if (unique) {
                 hits = repository.getStatsByUriWithUniqueIps(uris, start, end);
