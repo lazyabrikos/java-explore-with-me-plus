@@ -11,6 +11,13 @@
 	</parent>
 
 	<name>Explore With Me</name>
+	<modules>
+		<module>main-service</module>
+		<module>stats</module>
+		<module>stats/stats-client</module>
+		<module>stats/stats-dto</module>
+		<module>stats/stats-server</module>
+	</modules>
 
 	<groupId>ru.practicum</groupId>
 	<artifactId>explore-with-me</artifactId>
@@ -22,9 +29,31 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<layers>
+							<enabled>true</enabled>
+						</layers>
+						<excludes>
+							<exclude>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+							</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
