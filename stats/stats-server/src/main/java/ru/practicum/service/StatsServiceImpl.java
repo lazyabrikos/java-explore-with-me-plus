@@ -3,6 +3,7 @@ package ru.practicum.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.HitRequestDto;
 import ru.practicum.StatsResponseDto;
 import ru.practicum.mappers.StatsMapper;
 import ru.practicum.model.Hit;
@@ -20,11 +21,12 @@ public class StatsServiceImpl implements StatService {
 
 
     @Override
-    public StatsResponseDto save(StatsResponseDto body) {
+    public StatsResponseDto save(HitRequestDto body) {
         Hit hit = new Hit();
         hit.setApp(body.getApp());
         hit.setUri(body.getUri());
         hit.setTimestamp(LocalDateTime.now());
+        hit.setIp(body.getIp());
 
         return mapper.toDto(repository.save(hit));
     }
@@ -34,18 +36,18 @@ public class StatsServiceImpl implements StatService {
                                      LocalDateTime end,
                                      List<String> uris,
                                      Boolean unique) {
-        List<Hit> hits;
+        List<StatsResponseDto> hits;
 
         if (unique && !uris.isEmpty()) {
             hits = repository.getStatsByUriWithUniqueIps(uris, start, end);
-        } else if (unique && uris.isEmpty()) {
+        } else if (unique && uris != null) {
             hits = repository.getStatsByTimeWithUniqueIps(start, end);
-        } else if (!unique && !uris.isEmpty()) {
+        } else if (!unique && uris != null) {
             hits = repository.getStatsByUri(uris, start, end);
         } else {
-            hits = repository.findAllWhereTimestampBetweenStartAndEnd(start, end);
+            hits = repository.findAllTimestampBetweenStartAndEnd(start, end);
         }
 
-        return mapper.toDtoList(hits);
+        return hits;
     }
 }
