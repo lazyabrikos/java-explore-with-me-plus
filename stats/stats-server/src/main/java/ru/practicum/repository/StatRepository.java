@@ -16,7 +16,7 @@ public interface StatRepository extends JpaRepository<Hit, Long> {
             "      from Hit as h" +
             "      where h.timestamp between ?1 and ?2" +
             "      GROUP BY h.app, h.uri" +
-            " ORDER BY COUNT(h.ip) DESC" )
+            " ORDER BY COUNT(h.ip) DESC")
     List<StatsResponseDto> findAllTimestampBetweenStartAndEnd(LocalDateTime start, LocalDateTime end);
 
     @Query("select new ru.practicum.StatsResponseDto(h.app, " +
