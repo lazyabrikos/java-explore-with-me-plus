@@ -22,5 +22,5 @@ public class HitRequestDto {
     private String ip;
 
     @NotBlank(message = "Временная метка не может быть пустым")
-    private LocalDateTime timestamp;
+    private String timestamp;
 }

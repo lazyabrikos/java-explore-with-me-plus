@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import ru.practicum.ResponseStatDto;
-import ru.practicum.StatDto;
+import ru.practicum.HitRequestDto;
+import ru.practicum.StatsResponseDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +24,7 @@ public class StatsClientImpl implements StatsClient {
     }
 
     @Override
-    public List<ResponseStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
+    public List<StatsResponseDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
             var response = restClient.get()
@@ -35,7 +35,7 @@ public class StatsClientImpl implements StatsClient {
                             .queryParam("unique", unique)
                             .build())
                     .retrieve()
-                    .body(new ParameterizedTypeReference<List<ResponseStatDto>>() {
+                    .body(new ParameterizedTypeReference<List<StatsResponseDto>>() {
                     });
             return response;
         } catch (Exception exp) {
@@ -44,9 +44,9 @@ public class StatsClientImpl implements StatsClient {
     }
 
     @Override
-    public StatDto hit(StatDto statDto) {
+    public StatsResponseDto hit(HitRequestDto statDto) {
         try {
-            return restClient.post().uri("/git").body(statDto).retrieve().body(StatDto.class);
+            return restClient.post().uri("/hit").body(statDto).retrieve().body(StatsResponseDto.class);
         } catch (Exception exp) {
             return null;
         }

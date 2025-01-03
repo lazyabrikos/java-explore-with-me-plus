@@ -8,6 +8,7 @@ import ru.practicum.StatsResponseDto;
 import ru.practicum.service.StatService;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -22,10 +23,11 @@ public class StatServerController {
     }
 
     @GetMapping("/stats")
-    public List<StatsResponseDto> getStats(@RequestParam(value = "start", required = true) LocalDateTime start,
-                                     @RequestParam(value = "end", required = true) LocalDateTime end,
+    public List<StatsResponseDto> getStats(@RequestParam(value = "start", required = true) String start,
+                                     @RequestParam(value = "end", required = true) String end,
                                      @RequestParam(value = "uris", required = false) List<String> uris,
                                      @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
+
         return statService.getStats(start, end, uris, unique);
     }
 }
