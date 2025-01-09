@@ -2,11 +2,7 @@ package ru.practicum.users.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Limit;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.users.dto.NewUserRequest;
 import ru.practicum.users.dto.UserDto;
@@ -28,7 +24,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUsers(List<Long> ids, int from, int size) {
         List<User> users;
         if (ids == null || ids.isEmpty()) {
-            users  = userRepository.findAllOrderById(size, from);
+            users = userRepository.findAllOrderById(size, from);
         } else {
             users = userRepository.findAllById(ids);
         }
