@@ -85,7 +85,6 @@
             <groupId>ru.practicum</groupId>
             <artifactId>stats-client</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.persistence</groupId>
@@ -125,5 +124,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
