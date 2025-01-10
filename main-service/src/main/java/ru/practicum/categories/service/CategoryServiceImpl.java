@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.categories.dto.CategoryDto;
 import ru.practicum.categories.dto.NewCategoryDto;
+import ru.practicum.categories.mapper.CategoryMapper;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
+import ru.practicum.errors.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -14,30 +16,40 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     @Override
     public CategoryDto getCategory(Long catId) {
         Category category = categoryRepository.findById(catId)
-                .orElseThrow(() -> new )
+                .orElseThrow(() -> new NotFoundException("Not found category with id =" + catId));
+        return categoryMapper.mapToCategoryDto(category);
     }
 
     @Override
     public List<CategoryDto> getCategories(int from, int size) {
-        return List.of();
+        List<Category> categories = categoryRepository.findAllOrderById(size, from);
+        return categoryMapper.mapToListCategoryDto(categories);
     }
 
     @Override
     public void deleteCategory(Long catId) {
-
+        Category category = categoryRepository.findById(catId)
+                .orElseThrow(() -> new NotFoundException("Not found category with id =" + catId));
+        categoryRepository.delete(category);
     }
 
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
-        return null;
+        Category category = categoryMapper.mapToCategory(newCategoryDto);
+        return categoryMapper.mapToCategoryDto(categoryRepository.save(category));
     }
 
     @Override
     public CategoryDto updateCategory(NewCategoryDto newCategoryDto, Long catId) {
-        return null;
+        Category category = categoryRepository.findById(catId)
+                .orElseThrow(() -> new NotFoundException("Not found category with id =" + catId));
+        category.setName(newCategoryDto.getName());
+        categoryRepository.save(category);
+        return categoryMapper.mapToCategoryDto(category);
     }
 }
