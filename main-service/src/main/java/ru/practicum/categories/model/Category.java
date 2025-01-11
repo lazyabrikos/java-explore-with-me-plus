@@ -14,7 +14,7 @@ public class Category {
     Long id;
 
     @Column(name = "name")
-    @Size(min =1)
+    @Size(min = 1)
     String name;
 }
 
