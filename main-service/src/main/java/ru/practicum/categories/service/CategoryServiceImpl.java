@@ -7,6 +7,7 @@ import ru.practicum.categories.dto.NewCategoryDto;
 import ru.practicum.categories.mapper.CategoryMapper;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
+import ru.practicum.errors.exceptions.DataConflictException;
 import ru.practicum.errors.exceptions.NotFoundException;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
         Category category = categoryMapper.mapToCategory(newCategoryDto);
+        checkDuplicate(category.getName());
         return categoryMapper.mapToCategoryDto(categoryRepository.save(category));
     }
 
@@ -48,8 +50,18 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto updateCategory(NewCategoryDto newCategoryDto, Long catId) {
         Category category = categoryRepository.findById(catId)
                 .orElseThrow(() -> new NotFoundException("Not found category with id =" + catId));
+        if (!category.getName().equals(newCategoryDto.getName())) {
+            checkDuplicate(newCategoryDto.getName());
+        }
         category.setName(newCategoryDto.getName());
         categoryRepository.save(category);
         return categoryMapper.mapToCategoryDto(category);
+    }
+
+    private void checkDuplicate(String name) {
+        Boolean isDuplicate = categoryRepository.existsByNameIgnoreCase(name);
+        if (isDuplicate) {
+            throw new DataConflictException("Category already exists");
+        }
     }
 }

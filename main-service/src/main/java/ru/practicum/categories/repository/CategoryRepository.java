@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
+    Boolean existsByNameIgnoreCase(String name);
+
     @Query("SELECT c FROM Category c ORDER BY c.id LIMIT ?1 OFFSET ?2")
     List<Category> findAllOrderById(int size, int from);
 }
