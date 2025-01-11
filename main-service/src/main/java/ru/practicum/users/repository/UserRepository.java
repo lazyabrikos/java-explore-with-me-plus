@@ -17,5 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "OFFSET ?2")
     List<User> findAllOrderById(int size, int from);
 
+    Boolean existsByEmail(String email);
 
 }
