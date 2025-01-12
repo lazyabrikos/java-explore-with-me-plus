@@ -5,6 +5,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.practicum.errors.exceptions.DataConflictException;
 import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.errors.exceptions.ValidationException;
 import ru.practicum.errors.model.ApiError;
@@ -32,6 +33,13 @@ public class ErrorHandler {
     public ApiError handleArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ApiError(getErrors(e), e.getMessage(),
                 "Incorrectly made request.", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError handleDataConflictException(DataConflictException e) {
+        return new ApiError(getErrors(e), e.getMessage(),
+                "Integrity constraint has been violated.", HttpStatus.CONFLICT);
     }
 
     private String getErrors(Throwable e) {

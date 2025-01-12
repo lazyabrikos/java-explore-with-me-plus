@@ -3,6 +3,7 @@ package ru.practicum.users.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.errors.exceptions.DataConflictException;
 import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.users.dto.NewUserRequest;
 import ru.practicum.users.dto.UserDto;
@@ -42,6 +43,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(NewUserRequest newUser) {
         User user = userMapper.mapNewUserToUser(newUser);
+        isEmailUnique(newUser.getEmail());
         return userMapper.mapUserToUserDto(userRepository.save(user));
+    }
+
+    private void isEmailUnique(String email) {
+        boolean isEmailExists = userRepository.existsByEmail(email);
+        if (isEmailExists) {
+            throw new DataConflictException("User with this email already exists");
+        }
     }
 }
