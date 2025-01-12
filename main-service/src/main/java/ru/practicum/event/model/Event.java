@@ -1,55 +1,52 @@
-package ru.practicum.event.model;
+package ru.yandex.practicum.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "events")
+
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Column(name = "annotation")
-    String annotation;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    Category category;
-    @Column(name = "created_on")
-    LocalDateTime createdOn = LocalDateTime.now();
-    @Column(name = "event_date")
-    LocalDateTime eventDate;
+    private String annotation;
     @Column(name = "description")
-    String description;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator_id")
-    User initiator;
-    @Embedded
-    Location location;
+    private String description;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "category_id")
+    //private Category category;
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+    @Column(name = "event_date")
+    private LocalDateTime eventDate;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "initiator_id")
+    //private User initiator;
+    //@ManyToOne(fetch = FetchType.EAGER)
+    //@JoinColumn(name = "location_id")
+    //private Location location;
     @Column(name = "paid")
-    boolean paid;
+    private Boolean paid;
+    @Column(name = "participant_limit")
+    private Integer participantLimit;
     @Column(name = "published_on")
-    LocalDateTime publishedOn;
+    private LocalDateTime publishedOn;
     @Column(name = "request_moderation")
-    boolean requestModeration;
-    @Column(name = "state")
-    @Enumerated(EnumType.STRING)
-    EventState state = EventState.PENDING;
+    private Boolean requestModeration;
+    //@Column(name = "state")
+    //@Enumerated(EnumType.STRING)
+    //private EventState state;
     @Column(name = "title")
-    String title;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id != null && id.equals(event.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    private String title;
 }

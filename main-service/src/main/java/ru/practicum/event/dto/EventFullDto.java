@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 public class EventFullDto {
     long id;
     String annotation;
-    CategoryDto category;
+    //CategoryDto category;
     int confirmedRequests;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime createdOn;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime eventDate;
     String description;
-    UserShortDto initiator;
+    //UserShortDto initiator;
     Location location;
     boolean paid;
     int participantLimit;

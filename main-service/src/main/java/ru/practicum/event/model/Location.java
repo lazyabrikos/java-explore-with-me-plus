@@ -1,11 +1,23 @@
 package ru.practicum.event.model;
 
-import jakarta.persistence.Embedded;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Embedded
-@Data
+@Getter
+@Setter
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "locations")
 public class Location {
-    float lat;
-    float lon;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "lat")
+    private Float lat;
+    @Column(name = "lon")
+    private Float lon;
 }
