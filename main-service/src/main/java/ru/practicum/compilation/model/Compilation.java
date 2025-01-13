@@ -22,6 +22,6 @@ public class Compilation {
     private Boolean pinned;
 
     @OneToMany
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "id")
     private List<Event> events;
 }

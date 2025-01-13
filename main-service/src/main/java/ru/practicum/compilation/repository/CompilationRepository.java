@@ -11,10 +11,10 @@ import java.util.List;
 public interface CompilationRepository extends JpaRepository<Compilation, Long> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM compilation AS c" +
-            " WHERE c.pinned = true" +
+            " WHERE c.pinned = ?1" +
             " LIMIT ?3" +
             " OFFSET ?2")
-    List<Compilation> getPinnedCompilations(Integer from, Integer size);
+    List<Compilation> getCompilationsByPinned(Boolean pinned, Integer from, Integer size);
 
     @Query(nativeQuery = true, value = "SELECT * FROM compilation AS c" +
             " LIMIT ?1" +

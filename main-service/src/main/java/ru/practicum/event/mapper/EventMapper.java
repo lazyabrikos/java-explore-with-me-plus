@@ -3,7 +3,7 @@ package ru.practicum.event.mapper;
 
 import org.apache.catalina.User;
 import org.mapstruct.*;
-import ru.practicum.category.model.Category;
+import ru.practicum.categories.model.Category;
 import ru.practicum.event.dto.*;
 import ru.practicum.event.model.Event;
 

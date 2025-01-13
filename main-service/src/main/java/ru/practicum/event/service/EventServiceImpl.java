@@ -11,10 +11,6 @@ import ru.practicum.event.mapper.EventMapper;
 @RequiredArgsConstructor
 @Slf4j
 public class EventServiceImpl implements EventService {
-
-    private final EventRepository eventRepository;
-    private final UserService userService;
-    private final CategoryService categoryService;
     private final EventMapper eventMapper;
     private final StatsClient statsClient;
 

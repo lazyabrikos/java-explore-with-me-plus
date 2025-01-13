@@ -2,12 +2,14 @@ package ru.practicum.event.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import ru.practicum.categories.model.Category;
+import ru.practicum.users.model.User;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "events")
+@Table(name = "event")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +26,10 @@ public class Event {
     @Column(name = "description")
     String description;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator_id")
+    @JoinColumn(name = "user_id")
     User initiator;
-    @Embedded
+    @OneToOne
+    @JoinColumn(name = "id")
     Location location;
     @Column(name = "paid")
     boolean paid;

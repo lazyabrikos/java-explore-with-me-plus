@@ -1,7 +1,9 @@
 package ru.practicum.compilation.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.compilation.dto.CompilationRequestDto;
@@ -11,23 +13,27 @@ import ru.practicum.compilation.service.CompilationService;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@Validated
 @RequestMapping("/admin/compilations")
 public class AdminCompilationController {
     private final CompilationService service;
 
     @PostMapping
-    public CompilationResponseDto create(@RequestBody CompilationRequestDto body) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CompilationResponseDto create(@RequestBody @Valid CompilationRequestDto body) {
+        log.info("POST /admin/compilations/create with body={}", body);
         return service.create(body);
     }
 
     @PatchMapping("/{id}")
-    public CompilationResponseDto update(@RequestBody CompilationRequestDto body, @PathVariable Long id) {
+    public CompilationResponseDto update(@RequestBody @Valid CompilationRequestDto body, @PathVariable Long id) {
+        log.info("PATCH /admin/compilations/update with body={}", body);
         return service.update(body, id);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
+        log.info("DELETE /admin/compilations/delete with id={}", id);
         service.delete(id);
     }
 }

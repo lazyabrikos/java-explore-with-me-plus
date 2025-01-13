@@ -2,19 +2,11 @@ package ru.practicum.event.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import ru.practicum.event.model.Event;
 
-import java.awt.print.Pageable;
 import java.util.List;
-import java.util.Optional;
 
-public interface EventRepository extends JpaRepository<Event, Long>, QuerydslPredicateExecutor<Event> {
-    Optional<Event> findByIdAndInitiator_Id(long eventId, long initiatorId);
-
-    List<Event> findAllByInitiator_Id(long initiatorId, Pageable pageable);
-
-    boolean existsByCategory_Id(long categoryId);
+public interface EventRepository extends JpaRepository<Event, Long>{
 
     @Query("SELECT e FROM Event AS e" +
             " WHERE e.id IN ?1")

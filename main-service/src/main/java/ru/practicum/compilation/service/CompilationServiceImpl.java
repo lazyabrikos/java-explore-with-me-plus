@@ -29,59 +29,86 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public CompilationResponseDto create(CompilationRequestDto request) {
+        log.info("Create method started");
+        log.info("Preparing model");
         Compilation compilation = compilationMapper.fromDto(request);
 
-        List<Event> events = new ArrayList<>();
+        if (compilation.getPinned() == null) {
+            compilation.setPinned(false);
+        }
 
-        if (request.getEventIds() != null) {
+        log.info("Collecting events");
+        List<Event> events = new ArrayList<>();
+        if (request.getEventIds() != null && !request.getEventIds().isEmpty()) {
             events = eventRepository.getAllByIds(request.getEventIds());
         }
-
         compilation.setEvents(events);
 
-        CompilationResponseDto dto = compilationMapper.toDto(compilation);
-        dto.setEvents(new ArrayList<>());
+        log.info("Saving model");
+        compilation = repository.save(compilation);
 
-        if (compilation.getEvents() != null) {
-            dto.setEvents(eventMapper.toEventShortDtoList(events));
-        }
-
-        return dto;
+        return getDto(compilation);
     }
 
     @Override
     public CompilationResponseDto update(CompilationRequestDto request, Long id) {
+        log.info("Update method started");
         Compilation compilation = getCompilation(id);
 
+        log.info("Updating model");
         compilation.setTitle(request.getTitle());
-        compilation.setPinned(request.getPinned());
+        if (request.getPinned() == null) {
+            compilation.setPinned(false);
+        } else {
+            compilation.setPinned(request.getPinned());
+        }
 
+        log.info("Getting events");
         if (request.getEventIds() != null) {
+            log.info("Getting events from db");
             List<Event> events = eventRepository.getAllByIds(request.getEventIds());
             compilation.setEvents(events);
         }
 
+        log.info("Saving updated model and returning dto");
         return compilationMapper.toDto(repository.save(compilation));
     }
 
     @Override
     public void delete(Long id) {
+        log.info("Delete method started");
         repository.deleteById(id);
+        log.info("Delete method finished");
     }
 
     @Override
     public List<CompilationResponseDto> get(Boolean pinned, Integer offset, Integer size) {
-        if (pinned) {
-            return compilationMapper.toDtoList(repository.getPinnedCompilations(offset, size));
+        log.info("Get method started");
+        log.info("Checking pinned param = {}", pinned);
+        if (pinned == null) {
+            log.info("Returning compilations list");
+            return compilationMapper.toDtoList(repository.getCompilations(size, offset));
         }
 
-        return compilationMapper.toDtoList(repository.getCompilations(size, offset));
+        log.info("Returning compilations list by pinned param = {}", pinned);
+        return compilationMapper.toDtoList(repository.getCompilationsByPinned(pinned, offset, size));
     }
 
     @Override
     public CompilationResponseDto getById(Long id) {
+        log.info("Get by id method started");
         Compilation compilation = getCompilation(id);
 
+        return getDto(compilation);
+    }
+
+    private Compilation getCompilation(Long id) {
+        log.info("Getting compilation with id {}", id);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("No such compilation with id: " + id));
+    }
+
+    private CompilationResponseDto getDto(Compilation compilation) {
+        log.info("Preparing dto");
         CompilationResponseDto responseDto = compilationMapper.toDto(compilation);
         responseDto.setEvents(new ArrayList<>());
 
@@ -91,9 +118,5 @@ public class CompilationServiceImpl implements CompilationService {
         }
 
         return responseDto;
-    }
-
-    private Compilation getCompilation(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("No such compilation with id: " + id));
     }
 }
