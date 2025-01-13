@@ -8,5 +8,5 @@ import java.util.List;
 public class CompilationRequestDto {
     private String title;
     private Boolean pinned;
-    private List<Integer> eventIds;
+    private List<Long> eventIds;
 }

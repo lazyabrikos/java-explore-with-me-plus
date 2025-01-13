@@ -22,12 +22,12 @@ public class AdminCompilationController {
     }
 
     @PatchMapping("/{id}")
-    public CompilationResponseDto update(@RequestBody CompilationRequestDto body, @PathVariable Integer id) {
+    public CompilationResponseDto update(@RequestBody CompilationRequestDto body, @PathVariable Long id) {
         return service.update(body, id);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }

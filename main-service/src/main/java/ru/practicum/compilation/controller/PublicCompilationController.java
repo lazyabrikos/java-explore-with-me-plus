@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.compilation.dto.CompilationResponseDto;
 import ru.practicum.compilation.service.CompilationService;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -16,15 +18,15 @@ public class PublicCompilationController {
     private final CompilationService service;
 
     @GetMapping
-    public CompilationResponseDto get(@RequestParam(value = "pinned", required = false) Boolean pinned,
-                                      @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
-                                      @RequestParam(value = "size", required = false,
+    public List<CompilationResponseDto> get(@RequestParam(value = "pinned", required = false) Boolean pinned,
+                                            @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
+                                            @RequestParam(value = "size", required = false,
                                               defaultValue = "10") Integer size) {
         return service.get(pinned, from, size);
     }
 
     @GetMapping("/{id}")
-    public CompilationResponseDto getById(@PathVariable Integer id) {
+    public CompilationResponseDto getById(@PathVariable Long id) {
         return service.getById(id);
     }
 }
