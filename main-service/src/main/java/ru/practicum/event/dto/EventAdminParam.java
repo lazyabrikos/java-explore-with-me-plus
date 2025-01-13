@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EventAdminParam {
+
     List<Long> id;
     List<EventState> states;
     List<Long> categories;
