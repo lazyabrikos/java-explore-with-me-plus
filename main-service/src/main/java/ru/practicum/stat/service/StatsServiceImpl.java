@@ -49,6 +49,7 @@ public class StatsServiceImpl implements StatsService {
         LocalDateTime start = LocalDateTime.now().minusYears(20);
         LocalDateTime end = LocalDateTime.now().plusYears(20);
 
+
         List<String> uris = eventsId.stream()
                 .map(id -> String.format("/events/%d", id))
                 .toList();

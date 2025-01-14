@@ -3,8 +3,10 @@ package ru.practicum.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.HitRequestDto;
 import ru.practicum.StatsResponseDto;
+import ru.practicum.errors.exceptions.InvalidRequestException;
 import ru.practicum.mappers.StatsMapper;
 import ru.practicum.model.Hit;
 import ru.practicum.repository.StatRepository;
@@ -16,6 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class StatsServiceImpl implements StatService {
     private final StatRepository repository;
     private final StatsMapper mapper;
@@ -44,6 +47,9 @@ public class StatsServiceImpl implements StatService {
         List<StatsResponseDto> hits;
         LocalDateTime start = getDateTime(pathStart);
         LocalDateTime end = getDateTime(pathEnd);
+        if (start.isAfter(end)) {
+            throw new InvalidRequestException("Start is after end");
+        }
         log.info("Uris = {}", uris);
         if (uris != null && !uris.isEmpty()) {
             if (unique) {

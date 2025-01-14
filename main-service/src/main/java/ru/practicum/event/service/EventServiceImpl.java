@@ -189,16 +189,6 @@ public class EventServiceImpl implements EventService {
             eventSaved.setTitle(title);
         }
     }
-    /*
-    public List<ParticipationRequestDto> getRequestEventByUser(Long userId, Long eventId) {
-        userService.findUserById(userId);
-        getEventById(eventId);
-        List<RequestDto> requests = requestService.getRequestsByEventId(userId, eventId);
-        log.info("Получен список заявок на участие в событии с ID = {} пользователя с ID = {}", eventId, userId);
-        return requests.stream().map(requestMapper::toParticipationRequestDto).collect(Collectors.toList());
-    }
-     */
-
 
     @Override
     public List<EventLongDto> getAllEventsByAdmin(EventAdminParams param) {
@@ -261,7 +251,6 @@ public class EventServiceImpl implements EventService {
         Comparator<EventShortDto> comparator = Comparator.comparing(EventShortDto::getId);
 
         if (param.getSort() != null) {
-            // Сравниваем строки с именами элементов перечисления EventSort
             if (param.getSort().equals(EventSort.EVENT_DATE.name())) {
                 comparator = Comparator.comparing(EventShortDto::getEventDate);
             } else if (param.getSort().equals(EventSort.VIEWS.name())) {
