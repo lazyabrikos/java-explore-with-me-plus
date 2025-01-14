@@ -29,7 +29,10 @@ public abstract class CompilationMapper {
         List<CompilationResponseDto> compilationResponseDtos = new ArrayList<>();
         for (Compilation compilation : compilations) {
             CompilationResponseDto dto = toDto(compilation);
-            dto.setEvents(eventMapper.toEventShortDtoList(compilation.getEvents()));
+            dto.setEvents(compilation.getEvents().stream()
+                    .map(event -> eventMapper.toEventShortDto(event))
+                    .toList()
+            );
             compilationResponseDtos.add(dto);
         }
 

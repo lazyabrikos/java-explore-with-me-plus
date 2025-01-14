@@ -28,4 +28,7 @@ public interface EventRepository extends JpaRepository<Event, Long>, CustomizedE
 
     Boolean existsByCategory_Id(Long catId);
 
+    @Query("SELECT e FROM Event AS e" +
+            " WHERE e.id IN ?1")
+    List<Event> getAllByIds(List<Long> eventIds);
 }

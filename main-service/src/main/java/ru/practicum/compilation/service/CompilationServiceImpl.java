@@ -113,7 +113,10 @@ public class CompilationServiceImpl implements CompilationService {
         responseDto.setEvents(new ArrayList<>());
 
         if (compilation.getEvents() != null) {
-            List<EventShortDto> events = eventMapper.toEventShortDtoList(compilation.getEvents());
+            List<EventShortDto> events = compilation.getEvents().stream()
+                    .map(eventMapper::toEventShortDto)
+                    .toList();
+
             responseDto.setEvents(events);
         }
 
