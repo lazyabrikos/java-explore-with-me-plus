@@ -20,10 +20,18 @@ public abstract class CompilationMapper {
     @Mapping(target = "pinned", source = "request.pinned")
     public abstract Compilation fromDto(CompilationRequestDto request);
 
-    @Mapping(target = "id", source = "compilation.id")
-    @Mapping(target = "title", source = "compilation.title")
-    @Mapping(target = "pinned", source = "compilation.pinned")
-    public abstract CompilationResponseDto toDto(Compilation compilation);
+    public CompilationResponseDto toDto(Compilation compilation) {
+        CompilationResponseDto compilationResponseDto = new CompilationResponseDto();
+        compilationResponseDto.setId(compilation.getId());
+        compilationResponseDto.setTitle(compilation.getTitle());
+        compilationResponseDto.setPinned(compilation.getPinned());
+        compilationResponseDto.setEvents(
+                compilation.getEvents().stream()
+                        .map(event -> eventMapper.toEventShortDto(event))
+                        .toList()
+        );
+        return compilationResponseDto;
+    }
 
     public List<CompilationResponseDto> toDtoList(List<Compilation> compilations) {
         List<CompilationResponseDto> compilationResponseDtos = new ArrayList<>();
