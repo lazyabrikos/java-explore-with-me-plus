@@ -2,7 +2,6 @@ package ru.practicum.compilation.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.compilation.dto.CompilationResponseDto;
@@ -22,7 +21,7 @@ public class PublicCompilationController {
     public List<CompilationResponseDto> get(@RequestParam(value = "pinned", required = false) Boolean pinned,
                                             @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
                                             @RequestParam(value = "size", required = false,
-                                              defaultValue = "10") Integer size) {
+                                                    defaultValue = "10") Integer size) {
         log.info("GET /compilations with params: pinned = {}, from = {}, size = {}", pinned, from, size);
         return service.get(pinned, from, size);
     }

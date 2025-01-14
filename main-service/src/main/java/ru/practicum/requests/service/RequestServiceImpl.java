@@ -1,8 +1,6 @@
 package ru.practicum.requests.service;
 
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +8,7 @@ import ru.practicum.errors.exceptions.DataConflictException;
 import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.errors.exceptions.ValidationException;
 import ru.practicum.event.model.Event;
-import ru.practicum.event.model.EventState;
+import ru.practicum.event.model.enums.EventState;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.requests.dto.RequestDto;
 import ru.practicum.requests.mapper.RequestMapper;
@@ -29,7 +27,6 @@ import static ru.practicum.requests.enums.RequestStatus.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestServiceImpl implements RequestService {
 
     final EventRepository eventRepository;
@@ -84,8 +81,8 @@ public class RequestServiceImpl implements RequestService {
     @Override
     @Transactional
     public RequestDto updateRequest(Long userId,
-                                         Long eventId,
-                                         RequestDto updateRequest) throws DataConflictException, ValidationException, NotFoundException {
+                                    Long eventId,
+                                    RequestDto updateRequest) throws DataConflictException, ValidationException, NotFoundException {
         Event event = getEventById(eventId);
         List<Request> requests = getRequestsByEventId(eventId);
         long confirmedRequestsCounter = requests.stream().filter(r -> r.getStatus().equals(CONFIRMED_REQUEST)).count();
@@ -134,6 +131,8 @@ public class RequestServiceImpl implements RequestService {
             }
         }
 
+        event.setConfirmedRequests(confirmedRequestsCounter);
+        eventRepository.save(event);
         requestRepository.saveAll(pending);
 
         requestRepository.saveAll(result);
@@ -169,7 +168,7 @@ public class RequestServiceImpl implements RequestService {
             newRequest.setStatus(PENDING_REQUEST);
         }
         newRequest.setEvent(event);
-        if (!event.isRequestModeration()) {
+        if (!event.getRequestModeration()) {
             newRequest.setStatus(ACCEPTED_REQUEST);
         }
         return newRequest;
