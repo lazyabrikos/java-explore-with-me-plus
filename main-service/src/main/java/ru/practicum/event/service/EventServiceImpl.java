@@ -3,6 +3,7 @@ package ru.practicum.event.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -10,9 +11,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.service.CategoryService;
-import ru.practicum.error.exception.InvalidRequestException;
-import ru.practicum.error.exception.NotFoundException;
-import ru.practicum.errors.exceptions.DataConflictRequest;
+import ru.practicum.errors.exceptions.DataConflictException;
+import ru.practicum.errors.exceptions.InvalidRequestException;
+import ru.practicum.errors.exceptions.NotFoundException;
+import ru.practicum.errors.exceptions.DataConflictException;
 import ru.practicum.event.dto.*;
 import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.Event;
@@ -25,6 +27,8 @@ import ru.practicum.event.repository.EventRepository;
 import ru.practicum.requests.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.requests.dto.EventRequestStatusUpdateResult;
 import ru.practicum.requests.dto.ParticipationRequestDto;
+import ru.practicum.requests.model.Request;
+import ru.practicum.requests.service.RequestService;
 import ru.practicum.stat.service.StatsService;
 import ru.practicum.users.model.User;
 import ru.practicum.users.service.UserService;
@@ -44,16 +48,19 @@ public class EventServiceImpl implements EventService {
     private final CategoryService categoryService;
     private final EventMapper eventMapper;
     private final StatsService statsService;
+    private final RequestService requestService;
 
     @Autowired
     @Lazy
     public EventServiceImpl(EventRepository eventRepository, UserService userService,
-                            CategoryService categoryService, EventMapper eventMapper, StatsService statsService) {
+                            CategoryService categoryService, EventMapper eventMapper, StatsService statsService,
+                            RequestService requestService) {
         this.eventRepository = eventRepository;
         this.userService = userService;
         this.categoryService = categoryService;
         this.eventMapper = eventMapper;
         this.statsService = statsService;
+        this.requestService = requestService;
     }
 
     public List<EventShortDto> getAllEventOfUser(Long userId, Integer from, Integer size) {
@@ -119,7 +126,7 @@ public class EventServiceImpl implements EventService {
         }
 
         if (eventSaved.getState().equals(EventState.PUBLISHED)) {
-            throw new DataConflictRequest("It is not possible to make changes to an already published event.");
+            throw new DataConflictException("It is not possible to make changes to an already published event.");
         }
 
         if (updateEvent.getEventDate() != null) {
@@ -162,7 +169,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventRequestStatusUpdateResult changeRequestEventStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest request) {
+    public EventRequestStatusUpdateResult changeRequestEventStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest updateRequest) {
         return null;
     }
 
@@ -360,13 +367,13 @@ public class EventServiceImpl implements EventService {
         switch (stateActionForAdmin) {
             case REJECT_EVENT:
                 if (eventSaved.getState().equals(EventState.PUBLISHED)) {
-                    throw new DataConflictRequest("The event has already been published.");
+                    throw new DataConflictException("The event has already been published.");
                 }
                 eventSaved.setState(EventState.CANCELED);
                 break;
             case PUBLISH_EVENT:
                 if (!eventSaved.getState().equals(EventState.PENDING)) {
-                    throw new DataConflictRequest("Cannot publish the event because it's not in the right state: PUBLISHED");
+                    throw new DataConflictException("Cannot publish the event because it's not in the right state: PUBLISHED");
                 }
                 eventSaved.setState(EventState.PUBLISHED);
                 eventSaved.setPublishedOn(LocalDateTime.now());

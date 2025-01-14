@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.HitRequestDto;
+import ru.practicum.StatsResponseDto;
 import ru.practicum.ViewStats;
-import ru.practicum.stat.client.StatsClient;
+import ru.practicum.client.StatsClient;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +36,7 @@ public class StatsServiceImpl implements StatsService {
                 .build();
 
         try {
-            Object result = statsClient.createStats(stats);
+            Object result = statsClient.hit(stats);
             log.info("Stats created successfully. Result: {}", result);
         } catch (Exception e) {
             log.error("Error creating stats: ", e);
@@ -44,18 +45,18 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public List<ViewStats> getStats(List<Long> eventsId, boolean unique) {
+    public List<StatsResponseDto> getStats(List<Long> eventsId, boolean unique) {
         log.info("Getting stats for events: {}, unique: {}", eventsId, unique);
 
-        String start = LocalDateTime.now().minusYears(20).format(formatter);
-        String end = LocalDateTime.now().plusYears(20).format(formatter);
+        LocalDateTime start = LocalDateTime.now().minusYears(20); //.format(formatter);
+        LocalDateTime end = LocalDateTime.now().plusYears(20); //.format(formatter);
 
-        String[] uris = eventsId.stream()
+        List<String> uris = eventsId.stream()
                 .map(id -> String.format("/events/%d", id))
-                .toArray(String[]::new);
+                .toList();
 
         try {
-            List<ViewStats> stats = statsClient.getStats(start, end, uris, unique);
+            List<StatsResponseDto> stats = statsClient.getStats(start, end, uris, unique);
             log.info("Retrieved {} stats entries", stats.size());
             return stats;
         } catch (Exception e) {
@@ -72,9 +73,9 @@ public class StatsServiceImpl implements StatsService {
         Map<Long, Long> views = new HashMap<>();
 
         // Retrieve stats using the getStats method
-        List<ViewStats> stats = getStats(eventsId, unique);
+        List<StatsResponseDto> stats = getStats(eventsId, unique);
 
-        for (ViewStats stat : stats) {
+        for (StatsResponseDto stat : stats) {
             String uriPath = stat.getUri();
             if (uriPath.startsWith("/events/")) {
                 try {

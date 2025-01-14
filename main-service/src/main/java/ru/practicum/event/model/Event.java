@@ -15,31 +15,24 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "events")
+@Table(name = "event")
 public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String annotation;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-
     @Column(name = "created_on")
     private LocalDateTime createdOn;
-
     private String description;
-
     @Column(name = "event_date")
     private LocalDateTime eventDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User initiator;
-
     @Column(name = "paid")
     private Boolean paid;
     @Column(name = "loc_lat")

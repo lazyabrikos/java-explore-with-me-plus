@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.errors.exceptions.DataConflictException;
+import ru.practicum.errors.exceptions.InvalidRequestException;
 import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.errors.exceptions.ValidationException;
 import ru.practicum.errors.model.ApiError;
@@ -22,9 +23,9 @@ public class ErrorHandler {
         return new ApiError(getErrors(e), e.getMessage(), "No user with this id", HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({InvalidRequestException.class, ValidationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleValidationException(ValidationException e) {
+    public ApiError handleValidationException(Exception e) {
         return new ApiError(getErrors(e), e.getMessage(), "Not correct data in request", HttpStatus.BAD_REQUEST);
     }
 
@@ -35,9 +36,9 @@ public class ErrorHandler {
                 "Incorrectly made request.", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({DataConflictException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ApiError handleDataConflictException(DataConflictException e) {
+    public ApiError handleDataConflictException(Exception e) {
         return new ApiError(getErrors(e), e.getMessage(),
                 "Integrity constraint has been violated.", HttpStatus.CONFLICT);
     }

@@ -1,12 +1,15 @@
 package ru.practicum.event.service;
 
 import jakarta.servlet.http.HttpServletRequest;
+import ru.practicum.categories.model.Category;
 import ru.practicum.event.dto.*;
+import ru.practicum.event.model.Event;
 import ru.practicum.requests.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.requests.dto.EventRequestStatusUpdateResult;
 import ru.practicum.requests.dto.ParticipationRequestDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EventService {
 
@@ -30,11 +33,11 @@ public interface EventService {
 
     List<EventShortDto> getPublicEvents(EventPublicParams param);
 
-    //Event getEventById(Long eventId);
+    Event getEventById(Long eventId);
 
-    //List<Event> getAllEventsByListId(List<Long> eventsId);
+    List<Event> getAllEventsByListId(List<Long> eventsId);
 
-    //Optional<Event> findByCategory(Category category);
+    Optional<Event> findByCategory(Category category);
 
     EventFullDto getEventDtoByIdWithHit(Long id, HttpServletRequest httpServletRequest);
 }

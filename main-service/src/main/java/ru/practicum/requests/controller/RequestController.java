@@ -32,6 +32,7 @@ public class RequestController {
         return requestService.getUserRequests(userId);
     }
 
+
     @GetMapping("/events/{eventId}/requests")
     public List<RequestDto> getRequestsByEventId(@PathVariable Long userId,
                                                  @PathVariable Long eventId) throws ValidationException, NotFoundException {

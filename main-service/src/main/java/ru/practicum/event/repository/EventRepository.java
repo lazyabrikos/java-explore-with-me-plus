@@ -26,5 +26,6 @@ public interface EventRepository extends JpaRepository<Event, Long>, CustomizedE
 
     Optional<Event> findByCategory(Category category);
 
+    Boolean existsByCategory_Id(Long catId);
 
 }

@@ -22,11 +22,14 @@ public class Request {
     Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "requester_id")
     User requester;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
     Event event;
 
+    @Column(name = "created_on")
     LocalDateTime created;
 
     String status;
