@@ -25,7 +25,6 @@ import ru.practicum.event.repository.EventRepository;
 import ru.practicum.requests.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.requests.dto.EventRequestStatusUpdateResult;
 import ru.practicum.requests.dto.ParticipationRequestDto;
-import ru.practicum.requests.service.RequestService;
 import ru.practicum.stat.service.StatsService;
 import ru.practicum.users.model.User;
 import ru.practicum.users.service.UserService;
@@ -45,19 +44,16 @@ public class EventServiceImpl implements EventService {
     private final CategoryService categoryService;
     private final EventMapper eventMapper;
     private final StatsService statsService;
-    private final RequestService requestService;
 
     @Autowired
     @Lazy
     public EventServiceImpl(EventRepository eventRepository, UserService userService,
-                            CategoryService categoryService, EventMapper eventMapper, StatsService statsService,
-                            RequestService requestService) {
+                            CategoryService categoryService, EventMapper eventMapper, StatsService statsService) {
         this.eventRepository = eventRepository;
         this.userService = userService;
         this.categoryService = categoryService;
         this.eventMapper = eventMapper;
         this.statsService = statsService;
-        this.requestService = requestService;
     }
 
     public List<EventShortDto> getAllEventOfUser(Long userId, Integer from, Integer size) {

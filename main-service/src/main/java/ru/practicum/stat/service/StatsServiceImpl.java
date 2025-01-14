@@ -39,7 +39,6 @@ public class StatsServiceImpl implements StatsService {
             log.info("Stats created successfully. Result: {}", result);
         } catch (Exception e) {
             log.error("Error creating stats: ", e);
-            // Consider rethrowing the exception or handling it as appropriate for your application
         }
     }
 
@@ -47,8 +46,8 @@ public class StatsServiceImpl implements StatsService {
     public List<StatsResponseDto> getStats(List<Long> eventsId, boolean unique) {
         log.info("Getting stats for events: {}, unique: {}", eventsId, unique);
 
-        LocalDateTime start = LocalDateTime.now().minusYears(20); //.format(formatter);
-        LocalDateTime end = LocalDateTime.now().plusYears(20); //.format(formatter);
+        LocalDateTime start = LocalDateTime.now().minusYears(20);
+        LocalDateTime end = LocalDateTime.now().plusYears(20);
 
         List<String> uris = eventsId.stream()
                 .map(id -> String.format("/events/%d", id))
@@ -60,7 +59,6 @@ public class StatsServiceImpl implements StatsService {
             return stats;
         } catch (Exception e) {
             log.error("Error getting stats: ", e);
-            // Consider rethrowing the exception or handling it as appropriate for your application
             return Collections.emptyList();
         }
     }
@@ -71,7 +69,6 @@ public class StatsServiceImpl implements StatsService {
 
         Map<Long, Long> views = new HashMap<>();
 
-        // Retrieve stats using the getStats method
         List<StatsResponseDto> stats = getStats(eventsId, unique);
 
         for (StatsResponseDto stat : stats) {

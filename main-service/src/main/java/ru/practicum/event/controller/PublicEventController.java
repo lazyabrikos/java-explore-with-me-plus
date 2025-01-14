@@ -61,8 +61,8 @@ public class PublicEventController {
                 .size(size)
                 .sort(sort)
                 .build();
-        List<EventShortDto> events = eventService.getPublicEvents(eventPublicParams);
         statsService.createStats(request.getRequestURI(), request.getRemoteAddr());
+        List<EventShortDto> events = eventService.getPublicEvents(eventPublicParams);
         log.info("Calling the GET request to /events endpoint");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(events);
