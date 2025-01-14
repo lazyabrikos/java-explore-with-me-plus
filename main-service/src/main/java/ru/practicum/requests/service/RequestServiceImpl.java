@@ -10,7 +10,7 @@ import ru.practicum.errors.exceptions.DataConflictException;
 import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.errors.exceptions.ValidationException;
 import ru.practicum.event.model.Event;
-import ru.practicum.event.model.EventState;
+import ru.practicum.event.model.enums.EventState;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.requests.dto.RequestDto;
 import ru.practicum.requests.mapper.RequestMapper;

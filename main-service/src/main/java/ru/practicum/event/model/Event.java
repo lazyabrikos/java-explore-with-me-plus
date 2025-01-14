@@ -1,59 +1,62 @@
 package ru.practicum.event.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import ru.practicum.categories.model.Category;
+import ru.practicum.event.model.enums.EventState;
 import ru.practicum.users.model.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "events")
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    @Column(name = "annotation")
-    String annotation;
+    private long id;
+
+    private String annotation;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    Category category;
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
     @Column(name = "created_on")
-    LocalDateTime createdOn = LocalDateTime.now();
+    private LocalDateTime createdOn;
+
+    private String description;
+
     @Column(name = "event_date")
-    LocalDateTime eventDate;
-    @Column(name = "description")
-    String description;
+    private LocalDateTime eventDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator_id")
-    User initiator;
-    @Embedded
-    Location location;
+    @JoinColumn(name = "initiator_id", nullable = false)
+    private User initiator;
+
     @Column(name = "paid")
-    boolean paid;
+    private Boolean paid;
+    @Column(name = "loc_lat")
+    private Float lat;
+    @Column(name = "loc_lon")
+    private Float lon;
     @Column(name = "participant_limit")
-    Integer participantLimit;
+    private Integer participantLimit;
     @Column(name = "published_on")
-    LocalDateTime publishedOn;
+    private LocalDateTime publishedOn;
     @Column(name = "request_moderation")
-    boolean requestModeration;
-    @Column(name = "state")
+    private Boolean requestModeration;
     @Enumerated(EnumType.STRING)
-    EventState state = EventState.PENDING;
-    @Column(name = "title")
-    String title;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id != null && id.equals(event.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    private EventState state;
+    private String title;
+    @Column(name = "confirmed_requests")
+    private Long confirmedRequests;
+    @Column(name = "views")
+    private List<Long> views;
 }

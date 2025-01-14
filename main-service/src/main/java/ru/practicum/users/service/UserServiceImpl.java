@@ -53,4 +53,10 @@ public class UserServiceImpl implements UserService {
             throw new DataConflictException("User with this email already exists");
         }
     }
+
+    @Override
+    public User findUserById(Long userId) {
+        User user = userRepository.getUserById(userId);
+        return user;
+    }
 }
