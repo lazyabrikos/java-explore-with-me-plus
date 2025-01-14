@@ -5,17 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.HitRequestDto;
 import ru.practicum.StatsResponseDto;
-import ru.practicum.ViewStats;
 import ru.practicum.mappers.StatsMapper;
 import ru.practicum.model.Hit;
 import ru.practicum.repository.StatRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +38,9 @@ public class StatsServiceImpl implements StatService {
 
     @Override
     public List<StatsResponseDto> getStats(String pathStart,
-                                     String pathEnd,
-                                     List<String> uris,
-                                     Boolean unique) {
+                                           String pathEnd,
+                                           List<String> uris,
+                                           Boolean unique) {
         List<StatsResponseDto> hits;
         LocalDateTime start = getDateTime(pathStart);
         LocalDateTime end = getDateTime(pathEnd);
