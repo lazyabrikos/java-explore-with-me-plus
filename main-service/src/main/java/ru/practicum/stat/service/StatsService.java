@@ -1,7 +1,6 @@
 package ru.practicum.stat.service;
 
 import ru.practicum.StatsResponseDto;
-import ru.practicum.ViewStats;
 
 import java.util.List;
 import java.util.Map;

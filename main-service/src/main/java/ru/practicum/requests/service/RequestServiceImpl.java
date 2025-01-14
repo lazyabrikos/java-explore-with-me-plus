@@ -81,8 +81,8 @@ public class RequestServiceImpl implements RequestService {
     @Override
     @Transactional
     public RequestDto updateRequest(Long userId,
-                                         Long eventId,
-                                         RequestDto updateRequest) throws DataConflictException, ValidationException, NotFoundException {
+                                    Long eventId,
+                                    RequestDto updateRequest) throws DataConflictException, ValidationException, NotFoundException {
         Event event = getEventById(eventId);
         List<Request> requests = getRequestsByEventId(eventId);
         long confirmedRequestsCounter = requests.stream().filter(r -> r.getStatus().equals(CONFIRMED_REQUEST)).count();

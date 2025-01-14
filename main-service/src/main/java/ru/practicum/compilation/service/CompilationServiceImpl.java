@@ -16,7 +16,6 @@ import ru.practicum.event.repository.EventRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor

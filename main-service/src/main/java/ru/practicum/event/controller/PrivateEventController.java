@@ -11,9 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.event.dto.*;
 import ru.practicum.event.service.EventService;
-import ru.practicum.requests.dto.EventRequestStatusUpdateRequest;
-import ru.practicum.requests.dto.EventRequestStatusUpdateResult;
-import ru.practicum.requests.dto.ParticipationRequestDto;
 
 import java.util.List;
 
@@ -58,24 +55,4 @@ public class PrivateEventController {
         return ResponseEntity.status(HttpStatus.OK).body(eventService.updateEventByUser(userId, eventId,
                 updateEventUserRequest));
     }
-
-    /*
-    @GetMapping("/{eventId}/requests")
-    public ResponseEntity<List<ParticipationRequestDto>> getRequestEventByUser(@PathVariable Long userId,
-                                                                               @PathVariable Long eventId) {
-        log.info("Calling the GET request to /users/{userId}/events/{eventId}/requests endpoint with eventId {}", eventId);
-        return ResponseEntity.status(HttpStatus.OK).body(eventService.getRequestEventByUser(userId, eventId));
-    }
-
-
-    @PatchMapping(value = "/{eventId}/requests")
-    public ResponseEntity<EventRequestStatusUpdateResult> changeRequestEventStatus(
-            @PathVariable Long userId,
-            @PathVariable Long eventId,
-            @Valid @RequestBody EventRequestStatusUpdateRequest request) {
-        log.info("Calling the PATCH request to /users/{userId}/events/{eventId}/requests endpoint with eventId {}", eventId);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(eventService.changeRequestEventStatus(userId, eventId, request));
-    }
-    */
 }
