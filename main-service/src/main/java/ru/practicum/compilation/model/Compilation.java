@@ -3,6 +3,7 @@ package ru.practicum.compilation.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ru.practicum.event.model.Event;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Table(name = "compilation")
 @Getter
 @Setter
+@ToString
 public class Compilation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,5 @@ public class Compilation {
     private Boolean pinned;
 
     @OneToMany
-    @JoinColumn(name = "id")
     private List<Event> events;
 }

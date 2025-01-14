@@ -38,12 +38,12 @@ public class CompilationServiceImpl implements CompilationService {
 
         log.info("Collecting events");
         List<Event> events = new ArrayList<>();
-        if (request.getEventIds() != null && !request.getEventIds().isEmpty()) {
-            events = eventRepository.getAllByIds(request.getEventIds());
+        if (request.getEvents() != null && !request.getEvents().isEmpty()) {
+            events = eventRepository.getAllByIds(request.getEvents());
         }
         compilation.setEvents(events);
 
-        log.info("Saving model");
+        log.info("Saving model: {}", compilation);
         compilation = repository.save(compilation);
 
         return getDto(compilation);
@@ -55,7 +55,11 @@ public class CompilationServiceImpl implements CompilationService {
         Compilation compilation = getCompilation(id);
 
         log.info("Updating model");
-        compilation.setTitle(request.getTitle());
+
+        if (request.getTitle() != null) {
+            compilation.setTitle(request.getTitle());
+        }
+
         if (request.getPinned() == null) {
             compilation.setPinned(false);
         } else {
@@ -63,9 +67,9 @@ public class CompilationServiceImpl implements CompilationService {
         }
 
         log.info("Getting events");
-        if (request.getEventIds() != null) {
+        if (request.getEvents() != null) {
             log.info("Getting events from db");
-            List<Event> events = eventRepository.getAllByIds(request.getEventIds());
+            List<Event> events = eventRepository.getAllByIds(request.getEvents());
             compilation.setEvents(events);
         }
 
@@ -84,6 +88,7 @@ public class CompilationServiceImpl implements CompilationService {
     public List<CompilationResponseDto> get(Boolean pinned, Integer offset, Integer size) {
         log.info("Get method started");
         log.info("Checking pinned param = {}", pinned);
+
         if (pinned == null) {
             log.info("Returning compilations list");
             return compilationMapper.toDtoList(repository.getCompilations(size, offset));
