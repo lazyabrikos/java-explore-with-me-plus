@@ -1,5 +1,6 @@
 package ru.practicum.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,13 +15,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@Slf4j
 public class StatsClientImpl implements StatsClient {
     private final RestClient restClient;
 
 
     @Autowired
     public StatsClientImpl(@Value("${stats-server.url}") String statsUrl) {
-        this.restClient = RestClient.builder().baseUrl(statsUrl).build();
+        this.restClient = RestClient.create(statsUrl);
     }
 
     @Override
@@ -48,6 +50,7 @@ public class StatsClientImpl implements StatsClient {
         try {
             return restClient.post().uri("/hit").body(statDto).retrieve().body(StatsResponseDto.class);
         } catch (Exception exp) {
+            log.info(exp.getMessage());
             return null;
         }
     }
