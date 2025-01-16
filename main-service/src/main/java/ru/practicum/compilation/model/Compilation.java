@@ -22,7 +22,7 @@ public class Compilation {
     private String title;
 
     @Column(name = "pinned")
-    private Boolean pinned;
+    private boolean pinned;
 
     @OneToMany
     private List<Event> events;

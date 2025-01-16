@@ -7,11 +7,11 @@ import java.time.Instant;
 
 @Data
 public class ApiError {
-    String errors;
-    String message;
-    String reason;
-    HttpStatus status;
-    Instant timestamp;
+    private String errors;
+    private String message;
+    private String reason;
+    private HttpStatus status;
+    private Instant timestamp;
 
     public ApiError(String errors, String message, String reason, HttpStatus status) {
         this.errors = errors;

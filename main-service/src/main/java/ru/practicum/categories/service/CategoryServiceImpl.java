@@ -12,7 +12,6 @@ import ru.practicum.errors.exceptions.NotFoundException;
 import ru.practicum.event.repository.EventRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -78,10 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getCategoryByIdNotMapping(Long id) {
-        Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            return category.get();
-        }
-        throw new NotFoundException("Not found category with id =" + id);
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found category with id =" + id));
     }
 }

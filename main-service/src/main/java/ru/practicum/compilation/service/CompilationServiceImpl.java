@@ -32,10 +32,6 @@ public class CompilationServiceImpl implements CompilationService {
         log.info("Preparing model");
         Compilation compilation = compilationMapper.fromDto(request);
 
-        if (compilation.getPinned() == null) {
-            compilation.setPinned(false);
-        }
-
         log.info("Collecting events");
         List<Event> events = new ArrayList<>();
         if (request.getEvents() != null && !request.getEvents().isEmpty()) {

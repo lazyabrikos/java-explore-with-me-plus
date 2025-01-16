@@ -19,6 +19,7 @@ public class StatServerController {
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
     public StatsResponseDto save(@RequestBody HitRequestDto body) {
+        log.info("POST /hit with body: {}", body.toString());
         return statService.save(body);
     }
 

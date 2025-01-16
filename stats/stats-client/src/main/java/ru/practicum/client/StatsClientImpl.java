@@ -14,8 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
-@Slf4j
 @Component
+@Slf4j
 public class StatsClientImpl implements StatsClient {
     private final RestClient restClient;
 

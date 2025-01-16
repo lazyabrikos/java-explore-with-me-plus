@@ -33,8 +33,8 @@ public class PrivateEventController {
     @GetMapping
     public ResponseEntity<List<EventShortDto>> getAllEventForUser(
             @PathVariable Long userId,
-            @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
-            @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
+            @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+            @Positive @RequestParam(defaultValue = "10") Integer size) {
         List<EventShortDto> listEvents = eventService.getAllEventOfUser(userId, from, size);
         log.info("Calling the GET request to /users/{userId}/events endpoint for User {}", userId);
         return ResponseEntity.status(HttpStatus.OK).body(listEvents);

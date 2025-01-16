@@ -2,19 +2,25 @@ package ru.practicum.categories.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
 @Entity
 @Table(name = "category")
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "name")
     @Size(min = 1)
-    String name;
+    private String name;
 }
 

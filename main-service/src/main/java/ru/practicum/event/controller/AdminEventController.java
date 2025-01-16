@@ -8,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.event.dto.EventAdminParams;
@@ -32,7 +30,7 @@ public class AdminEventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<List<EventLongDto>> getAllEventsByAdmin(
+    public List<EventLongDto> getAllEventsByAdmin(
             @RequestParam(required = false) List<Long> users,
             @RequestParam(required = false) List<EventState> states,
             @RequestParam(required = false) List<Long> categories,
@@ -59,15 +57,15 @@ public class AdminEventController {
                 .pageable(PageRequest.of(page, size, sort))
                 .build();
         log.info("Calling the GET request to /admin/events endpoint");
-        return ResponseEntity.status(HttpStatus.OK).body(eventService.getAllEventsByAdmin(eventAdminParams));
+        return eventService.getAllEventsByAdmin(eventAdminParams);
     }
 
     @PatchMapping(value = "/{eventId}")
-    public ResponseEntity<EventLongDto> updateEventByAdmin(
+    public EventLongDto updateEventByAdmin(
             @PathVariable Long eventId,
             @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
         log.info("Calling the PATCH request to /admin/events/{} endpoint", eventId);
-        return ResponseEntity.status(HttpStatus.OK).body(eventService.updateEventByAdmin(eventId,
-                updateEventAdminRequest));
+        return eventService.updateEventByAdmin(eventId,
+                updateEventAdminRequest);
     }
 }

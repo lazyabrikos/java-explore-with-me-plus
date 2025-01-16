@@ -18,7 +18,13 @@ public abstract class CompilationMapper {
     public Compilation fromDto(CompilationRequestDto request) {
         Compilation compilation = new Compilation();
         compilation.setTitle(request.getTitle());
-        compilation.setPinned(request.getPinned());
+
+        if (request.getPinned() != null) {
+            compilation.setPinned(request.getPinned());
+        } else {
+            compilation.setPinned(false);
+        }
+
         return compilation;
     }
 
@@ -26,7 +32,7 @@ public abstract class CompilationMapper {
         CompilationResponseDto compilationResponseDto = new CompilationResponseDto();
         compilationResponseDto.setId(compilation.getId());
         compilationResponseDto.setTitle(compilation.getTitle());
-        compilationResponseDto.setPinned(compilation.getPinned());
+        compilationResponseDto.setPinned(compilation.isPinned());
         compilationResponseDto.setEvents(
                 compilation.getEvents().stream()
                         .map(event -> eventMapper.toEventShortDto(event))
