@@ -220,7 +220,6 @@ public class EventServiceImpl implements EventService {
             eventSaved.setAnnotation(updateEvent.getAnnotation());
         }
         if (updateEvent.getCategory() != null) {
-            assert categoryService != null;
             Category category = categoryService.getCategoryByIdNotMapping(updateEvent.getCategory());
             eventSaved.setCategory(category);
         }
@@ -228,7 +227,6 @@ public class EventServiceImpl implements EventService {
 
         eventSaved = eventRepository.save(eventSaved);
 
-        assert eventMapper != null;
         EventLongDto eventFullDto = eventMapper.toLongDto(eventSaved);
 
         log.info("Событие ID = {} успешно обновлено от имени администратора", eventId);
@@ -245,7 +243,6 @@ public class EventServiceImpl implements EventService {
             throw new InvalidRequestException("The start of the range must be before the end of the range.");
         }
 
-        assert eventRepository != null;
         List<Event> events = eventRepository.searchPublicEvents(param);
 
         Comparator<EventShortDto> comparator = Comparator.comparing(EventShortDto::getId);
@@ -261,7 +258,6 @@ public class EventServiceImpl implements EventService {
         Map<Long, Long> view = getView(events, false);
         return events.stream()
                 .map(e -> {
-                    assert eventMapper != null;
                     return eventMapper.toShortDto(e, view.getOrDefault(e.getId(), 0L));
                 })
                 .sorted(comparator)
@@ -273,18 +269,15 @@ public class EventServiceImpl implements EventService {
             List<Long> eventsId = events.stream()
                     .map(Event::getId)
                     .collect(Collectors.toList());
-            assert statsService != null;
             return statsService.getView(eventsId, unique);
         } else return new HashMap<>();
     }
 
     public EventLongDto getEventDtoById(Long id, HttpServletRequest httpServletRequest) {
 
-        assert eventRepository != null;
         Event event = eventRepository.findByIdAndState(id, EventState.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Event must be published"));
 
-        assert eventMapper != null;
         EventLongDto eventLongDto = eventMapper.toLongDto(event);
 
         log.info("Событие ID = {} успешно обновлено от имени администратора", id);
@@ -293,7 +286,6 @@ public class EventServiceImpl implements EventService {
 
     public EventFullDto getEventDtoByIdWithHit(Long id, HttpServletRequest httpServletRequest) {
 
-        assert eventRepository != null;
         Event event = eventRepository.findByIdAndState(id, EventState.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Event must be published"));
 
@@ -307,7 +299,6 @@ public class EventServiceImpl implements EventService {
             eventRepository.save(event);
         }
 
-        assert eventMapper != null;
         EventFullDto eventFullDto = eventMapper.toEventFullDto(event);
         eventFullDto.setViews(Long.valueOf(eventViews.size()));
 
@@ -368,7 +359,6 @@ public class EventServiceImpl implements EventService {
     // Получение event по id
 
     public Event getEventById(Long eventId) {
-        assert eventRepository != null;
         Optional<Event> eventOptional = eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             return eventOptional.get();

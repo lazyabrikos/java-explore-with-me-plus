@@ -14,9 +14,6 @@
 	<modules>
 		<module>main-service</module>
 		<module>stats</module>
-		<module>stats/stats-client</module>
-		<module>stats/stats-dto</module>
-		<module>stats/stats-server</module>
 	</modules>
 
 	<groupId>ru.practicum</groupId>
@@ -26,6 +23,9 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
