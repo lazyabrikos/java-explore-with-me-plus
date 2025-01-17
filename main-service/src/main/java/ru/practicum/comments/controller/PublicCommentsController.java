@@ -9,21 +9,23 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.comments.dto.CommentResponseDto;
 import ru.practicum.comments.service.CommentService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comments")
+@RequestMapping("/{targetId}/comments")
 @Slf4j
 public class PublicCommentsController {
 
     private final CommentService commentService;
 
-    @GetMapping("/{targetId}")
-    public CommentResponseDto getCommentsByTargetId(@PathVariable Long targetId) {
+    @GetMapping
+    public List<CommentResponseDto> getCommentsByTargetId(@PathVariable Long targetId) {
         return null;
     }
 
     @GetMapping("/{commentId}")
-    public CommentResponseDto getCommentsByCommentId(@PathVariable Long commentId) {
+    public CommentResponseDto getCommentByCommentId(@PathVariable Long targetId, @PathVariable Long commentId) {
         return null;
     }
 }

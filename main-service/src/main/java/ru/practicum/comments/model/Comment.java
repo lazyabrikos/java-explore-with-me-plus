@@ -21,8 +21,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "target_id")
-    private Long targetId;
+    @Column(name = "event_id")
+    private Long eventId;
 
     @OneToOne
     @JoinColumn(name = "id")

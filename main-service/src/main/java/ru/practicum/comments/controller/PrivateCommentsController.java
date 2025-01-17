@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user/{userId}/comments")
+@RequestMapping("/user/{userId}/{targetId}/comments")
 @Slf4j
 public class PrivateCommentsController {
 
@@ -22,7 +22,7 @@ public class PrivateCommentsController {
         return null;
     }
 
-    @PostMapping("/{targetId}")
+    @PostMapping
     public CommentResponseDto createComment(@PathVariable Long targetId,
                                             @PathVariable Long userId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
@@ -31,14 +31,16 @@ public class PrivateCommentsController {
     }
 
     @PatchMapping("/{commentId}")
-    public CommentResponseDto updateComment(@PathVariable Long commentId,
+    public CommentResponseDto updateComment(@PathVariable Long targetId,
+                                            @PathVariable Long commentId,
                                             @PathVariable Long userId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
         return null;
     }
 
     @DeleteMapping("/{commentId}")
-    public void deleteComment(@PathVariable Long commentId,
+    public void deleteComment(@PathVariable Long targetId,
+                              @PathVariable Long commentId,
                               @PathVariable Long userId) {
 
     }

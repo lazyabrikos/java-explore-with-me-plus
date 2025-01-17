@@ -9,19 +9,20 @@ import ru.practicum.comments.service.CommentService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/comments")
+@RequestMapping("/admin/{targetId}/comments")
 @Slf4j
 public class AdminCommentsController {
     private final CommentService commentService;
 
     @PatchMapping("/{commentId}")
-    public CommentResponseDto updateComment(@PathVariable Long commentId,
+    public CommentResponseDto updateComment(@PathVariable Long targetId,
+                                            @PathVariable Long commentId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
         return null;
     }
 
     @DeleteMapping("/{commentId}")
-    public void deleteComment(@PathVariable Long commentId) {
+    public void deleteComment(@PathVariable Long targetId, @PathVariable Long commentId) {
 
     }
 }
