@@ -13,19 +13,19 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/{targetId}/comments")
+@RequestMapping("/{eventId}/comments")
 @Slf4j
 public class PublicCommentsController {
 
     private final CommentService commentService;
 
     @GetMapping
-    public List<CommentResponseDto> getCommentsByTargetId(@PathVariable Long targetId) {
-        return null;
+    public List<CommentResponseDto> getCommentsByEventId(@PathVariable Long eventId) {
+        return commentService.getCommentByTargetId(eventId);
     }
 
     @GetMapping("/{commentId}")
-    public CommentResponseDto getCommentByCommentId(@PathVariable Long targetId, @PathVariable Long commentId) {
-        return null;
+    public CommentResponseDto getCommentByCommentId(@PathVariable Long eventId, @PathVariable Long commentId) {
+        return commentService.getCommentByCommentId(eventId, commentId);
     }
 }

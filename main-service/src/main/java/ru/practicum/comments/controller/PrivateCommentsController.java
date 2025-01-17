@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user/{userId}/{targetId}/comments")
+@RequestMapping("/user/{userId}/{eventId}/comments")
 @Slf4j
 public class PrivateCommentsController {
 
@@ -19,29 +19,29 @@ public class PrivateCommentsController {
 
     @GetMapping
     public List<CommentResponseDto> getAllUserComments(@PathVariable Long userId) {
-        return null;
+        return commentService.getUserComments(userId);
     }
 
     @PostMapping
-    public CommentResponseDto createComment(@PathVariable Long targetId,
+    public CommentResponseDto createComment(@PathVariable Long eventId,
                                             @PathVariable Long userId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
         log.info("Calling the POST request to /comments endpoint");
-        return null;
+        return commentService.createComment(eventId, userId, commentRequestDto);
     }
 
     @PatchMapping("/{commentId}")
-    public CommentResponseDto updateComment(@PathVariable Long targetId,
+    public CommentResponseDto updateComment(@PathVariable Long eventId,
                                             @PathVariable Long commentId,
                                             @PathVariable Long userId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
-        return null;
+        return commentService.updateCommentAsAuthor(eventId, commentId, userId, commentRequestDto);
     }
 
     @DeleteMapping("/{commentId}")
-    public void deleteComment(@PathVariable Long targetId,
+    public void deleteComment(@PathVariable Long eventId,
                               @PathVariable Long commentId,
                               @PathVariable Long userId) {
-
+        commentService.deleteCommentAsAuthor(eventId, userId, commentId);
     }
 }
