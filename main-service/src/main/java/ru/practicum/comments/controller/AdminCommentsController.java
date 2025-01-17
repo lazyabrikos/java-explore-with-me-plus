@@ -23,6 +23,6 @@ public class AdminCommentsController {
 
     @DeleteMapping("/{commentId}")
     public void deleteComment(@PathVariable Long eventId, @PathVariable Long commentId) {
-
+        commentService.deleteCommentAsAdmin(eventId, commentId);
     }
 }
