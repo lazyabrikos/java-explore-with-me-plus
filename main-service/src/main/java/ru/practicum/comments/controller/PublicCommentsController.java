@@ -21,11 +21,13 @@ public class PublicCommentsController {
 
     @GetMapping
     public List<CommentResponseDto> getCommentsByEventId(@PathVariable Long eventId) {
+        log.info("GET comment by event id {}", eventId);
         return commentService.getCommentByTargetId(eventId);
     }
 
     @GetMapping("/{commentId}")
     public CommentResponseDto getCommentByCommentId(@PathVariable Long eventId, @PathVariable Long commentId) {
+        log.info("GET comment by comment id {}", commentId);
         return commentService.getCommentByCommentId(eventId, commentId);
     }
 }

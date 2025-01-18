@@ -25,7 +25,7 @@ public class Comment {
     private Long eventId;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "author_id")
     private User author;
 
     @Column(name = "text")

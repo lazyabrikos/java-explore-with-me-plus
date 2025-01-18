@@ -7,7 +7,7 @@ import ru.practicum.users.model.User;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findAllByTarget_Id(Long id);
+    List<Comment> findAllByEventId(Long id);
     List<Comment> findAllByAuthor(User user);
 
 }

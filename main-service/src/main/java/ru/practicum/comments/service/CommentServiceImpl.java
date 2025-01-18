@@ -31,16 +31,22 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponseDto createComment(Long eventId, Long userId, CommentRequestDto commentRequestDto) {
         Comment comment = commentMapper.toComment(commentRequestDto);
+        log.info("Comment = {}", comment);
+
         User user = userRepository.getUserById(userId);
+        log.info("User = {}", user.toString());
+
         comment.setAuthor(user);
         comment.setEventId(eventId);
         comment.setCreatedAt(LocalDateTime.now());
+        log.info("Comment for creation = {}", comment);
+
         return commentMapper.toDto(commentRepository.save(comment));
     }
 
     @Override
     public List<CommentResponseDto> getCommentByTargetId(Long id) {
-        List<Comment> comments = commentRepository.findAllByTarget_Id(id);
+        List<Comment> comments = commentRepository.findAllByEventId(id);
         return commentMapper.toDtoList(comments);
     }
 
@@ -89,8 +95,10 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentAsAuthor(Long eventId, Long userId, Long commentId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Not found event with id = " + eventId));
+        log.info("Event = {}", event);
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NotFoundException("No comment with id =" + commentId));
+        log.info("Comment = {}", comment);
         if (!comment.getAuthor().getId().equals(userId)) {
             throw new DataConflictException("Not user cannot delete comment");
         }

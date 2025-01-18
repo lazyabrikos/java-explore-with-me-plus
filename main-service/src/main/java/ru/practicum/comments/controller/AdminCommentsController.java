@@ -2,6 +2,7 @@ package ru.practicum.comments.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.comments.dto.CommentRequestDto;
 import ru.practicum.comments.dto.CommentResponseDto;
@@ -18,11 +19,14 @@ public class AdminCommentsController {
     public CommentResponseDto updateComment(@PathVariable Long eventId,
                                             @PathVariable Long commentId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
+        log.info("Updating comment with id={} and body={}", commentId, commentRequestDto);
         return commentService.updateCommentAsAdmin(eventId, commentId, commentRequestDto);
     }
 
     @DeleteMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@PathVariable Long eventId, @PathVariable Long commentId) {
+        log.info("Deleting comment with id={}", commentId);
         commentService.deleteCommentAsAdmin(eventId, commentId);
     }
 }
