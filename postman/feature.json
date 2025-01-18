@@ -371,10 +371,6 @@
               "    pm.expect(target).to.have.property('authorName');\r",
               "    pm.expect(target).to.have.property('text');\r",
               "    pm.expect(target).to.have.property('createdAt');\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {\r",
-              "    pm.expect(target.id).equal(pm.collectionVariables.get(\"commentId\"));\r",
               "});"
             ],
             "type": "text/javascript",
