@@ -30,15 +30,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponseDto createComment(Long eventId, Long userId, CommentRequestDto commentRequestDto) {
-        Comment comment = commentMapper.toComment(commentRequestDto);
-        log.info("Comment = {}", comment);
 
         User user = userRepository.getUserById(userId);
         log.info("User = {}", user.toString());
 
-        comment.setAuthor(user);
-        comment.setEventId(eventId);
-        comment.setCreatedAt(LocalDateTime.now());
+
+        Comment comment = commentMapper.toComment(commentRequestDto, user, eventId, LocalDateTime.now());
+        log.info("Comment = {}", comment);
+
         log.info("Comment for creation = {}", comment);
 
         return commentMapper.toDto(commentRepository.save(comment));
