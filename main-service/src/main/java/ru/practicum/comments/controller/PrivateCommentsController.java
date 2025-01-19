@@ -21,7 +21,9 @@ public class PrivateCommentsController {
     @GetMapping
     public List<CommentResponseDto> getAllUserComments(@PathVariable Long userId) {
         log.info("GET all comments for user with id: {}", userId);
-        return commentService.getUserComments(userId);
+        List<CommentResponseDto> response = commentService.getUserComments(userId);
+        log.info("Get response with size = {}", response.size());
+        return response;
     }
 
     @PostMapping
@@ -30,7 +32,9 @@ public class PrivateCommentsController {
                                             @PathVariable Long userId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
         log.info("POST request with body: {}", commentRequestDto);
-        return commentService.createComment(eventId, userId, commentRequestDto);
+        CommentResponseDto response = commentService.createComment(eventId, userId, commentRequestDto);
+        log.info("Post comment with body = {}", response);
+        return response;
     }
 
     @PatchMapping("/{commentId}")
@@ -39,7 +43,10 @@ public class PrivateCommentsController {
                                             @PathVariable Long userId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
         log.info("PATCH request with body: {}", commentRequestDto);
-        return commentService.updateCommentAsAuthor(eventId, commentId, userId, commentRequestDto);
+        CommentResponseDto response = commentService.updateCommentAsAuthor(eventId, commentId,
+                userId, commentRequestDto);
+        log.info("Send response with body = {}", response);
+        return response;
     }
 
     @DeleteMapping("/{commentId}")
@@ -49,5 +56,6 @@ public class PrivateCommentsController {
                               @PathVariable Long userId) {
         log.info("DELETE request with commentId: {}", commentId);
         commentService.deleteCommentAsAuthor(eventId, userId, commentId);
+        log.info("Comment with id = {} deleted", commentId);
     }
 }

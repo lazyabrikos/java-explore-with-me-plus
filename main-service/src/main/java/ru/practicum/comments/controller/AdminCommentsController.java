@@ -20,7 +20,9 @@ public class AdminCommentsController {
                                             @PathVariable Long commentId,
                                             @RequestBody CommentRequestDto commentRequestDto) {
         log.info("Updating comment with id={} and body={}", commentId, commentRequestDto);
-        return commentService.updateCommentAsAdmin(eventId, commentId, commentRequestDto);
+        CommentResponseDto response = commentService.updateCommentAsAdmin(eventId, commentId, commentRequestDto);
+        log.info("Send response with body = {}", response);
+        return response;
     }
 
     @DeleteMapping("/{commentId}")
@@ -28,5 +30,6 @@ public class AdminCommentsController {
     public void deleteComment(@PathVariable Long eventId, @PathVariable Long commentId) {
         log.info("Deleting comment with id={}", commentId);
         commentService.deleteCommentAsAdmin(eventId, commentId);
+        log.info("Comment with id = {} deleted", commentId);
     }
 }

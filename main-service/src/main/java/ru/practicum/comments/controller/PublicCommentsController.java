@@ -22,12 +22,17 @@ public class PublicCommentsController {
     @GetMapping
     public List<CommentResponseDto> getCommentsByEventId(@PathVariable Long eventId) {
         log.info("GET comment by event id {}", eventId);
-        return commentService.getCommentByTargetId(eventId);
+        List<CommentResponseDto> response = commentService.getCommentByTargetId(eventId);
+        log.info("Send response with size = {}", response.size());
+        return response;
     }
 
     @GetMapping("/{commentId}")
     public CommentResponseDto getCommentByCommentId(@PathVariable Long eventId, @PathVariable Long commentId) {
         log.info("GET comment by comment id {}", commentId);
-        return commentService.getCommentByCommentId(eventId, commentId);
+        CommentResponseDto response = commentService.getCommentByCommentId(eventId, commentId);
+        log.info("Send response with body = {}", response);
+        return response;
+
     }
 }
