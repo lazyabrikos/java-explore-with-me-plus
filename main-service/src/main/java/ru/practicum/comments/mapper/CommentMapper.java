@@ -21,7 +21,7 @@ public interface CommentMapper {
     @Mapping(target = "eventId", source = "eventId")
     @Mapping(target = "createdAt", source = "createdAt")
     Comment toComment(CommentRequestDto commentRequestDto, @MappingTarget User author,
-                      Long eventId, LocalDateTime createdAt);
+                      @MappingTarget Long eventId, @MappingTarget LocalDateTime createdAt);
 
     List<CommentResponseDto> toDtoList(List<Comment> comments);
 }
